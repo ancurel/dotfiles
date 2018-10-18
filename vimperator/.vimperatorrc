@@ -1,0 +1,47 @@
+" Colorscheme
+colorscheme miami-night
+
+set hintchars=asdfghjkl;
+
+
+" Ctrl-F8 to toggle status bar
+nmap <silent> <C-F8> :js toggle_bottombar()<CR>
+nmap <silent> <C-F9> :js toggle_navbar()<CR>
+
+nmap , <Leader>
+
+nmap J gT
+nmap K gt
+nmap <C-S-j> :tabmove! -1<CR>
+nmap <C-S-k> :tabmove! +1<CR>
+
+nmap d <C-w>
+nmap <Leader>j :jumps<CR>
+nmap <Leader>, :noh<CR>
+
+" Make ctrl+c (copy) work
+" nmap <C-c> <C-v><C-c>
+
+
+" Toggle nav bar
+:js << EOF
+function toggle_navbar() {
+    if (options['toolbars'].includes('nonavigation')) {
+        options['toolbars'] = 'navigation';
+    } else {
+        options['toolbars'] = 'nonavigation';
+    }
+}
+EOF
+
+" Toggle status bar
+:js << EOF
+function toggle_bottombar() {
+    var bb = document.getElementById('liberator-bottombar');
+    if (!bb)
+        return;
+    bb.style.height = (bb.style.height == '') ? '0px' : '';
+    bb.style.overflow = (bb.style.height == '') ? '' : 'hidden';
+}
+EOF
+

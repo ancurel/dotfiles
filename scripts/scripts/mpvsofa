@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# sofafile="dtf_b_nh5.sofa"
+sofafile="hrtf_b_nh12.sofa"
+# sofafile="hrtf_b_nh5.sofa"
+# sofafile="ClubFritz12.sofa"
+# sofafile="ClubFritz6.sofa"
+# sofafile="ClubFritz4.sofa"
+
+sofapath="$HOME/.config/sofa/$sofafile"
+
+# normalize? Add: loudnorm/alimiter  filter
+mpv --ad-lavc-downmix=no --audio-channels=6 \
+    --af lavfi=[sofalizer=sofa=$sofapath:type=freq:radius=1:gain=17]  "$@"

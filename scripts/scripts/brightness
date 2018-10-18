@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for monitor in $(xrandr -q | awk '/ connected / {print $1;}'); do
+    xrandr --output $monitor $*
+done

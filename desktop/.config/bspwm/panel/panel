@@ -1,0 +1,37 @@
+#!/bin/sh
+
+cd $(dirname $0)
+
+if [ $(pgrep -cx panel) -gt 1 ]; then
+    printf "%s\n" "The panel is already running." >&2
+    exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+bspc subscribe > "$PANEL_FIFO" &
+xtitle -sf 'T%s' > "$PANEL_FIFO" &
+# clock -sf 'S %H:%M - %d %B' > "$PANEL_FIFO" &
+
+if [ $(pgrep -cx openvpn) -eq 1 ] && [ -f /tmp/vpncurrent ]; then
+    printf "V%s\n" $(cat /tmp/vpncurrent) > "$PANEL_FIFO" &
+fi
+
+./panel_sysinfo > "$PANEL_FIFO" &
+mailnotify > "$PANEL_FIFO" &
+
+monitor_x=$(xrandr -q | grep -oE '[0-9]+x[0-9]+\+0\+0' | cut -d 'x' -f1)
+
+cat "$PANEL_FIFO" | ./panel_bar | lemonbar \
+    -f '-lucy-tewi-medium-r-normal--11-90-100-100-c-60-iso10646-1' \
+    -f '-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1' \
+    -g ${monitor_x}x18 \
+    -B \#ff181818 \
+    -F \#ffb2b2b2 \
+    -u 3 \
+    &
+
+wait

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+primary="^DVI"
+secondary=()
+monitors=($(xrandr -q | awk '/[^dis]connected/ { print $1;}'))
+
+resolution () {
+    echo $(xrandr -q | grep -A1 $1 | tail -n +2 | awk '{print $1;}')
+}
+
+for i in "${monitors[@]}"
+do
+    if echo $i | grep --q $primary; then
+        primary=$i
+    else
+        secondary+=$i
+    fi
+done
+
+xrandr --output $primary --mode $(resolution $primary)
+xrandr --output $primary --primary
+
+previous=$primary
+for i in "${secondary[@]}"
+do
+    xrandr --output $i --mode $(resolution $i)
+    xrandr --output $i --right-of $previous
+    previous=$i
+done
+

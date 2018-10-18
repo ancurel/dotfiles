@@ -1,0 +1,78 @@
+#!/bin/sh
+
+fBlack="%{F#ff000000}"
+bBlack="%{B#ff000000}"
+fCyan="%{F#ff25D4E2}"
+bCyan="%{B#ff25D4E2}"
+
+bGray="%{B#ff2f2f2f}"
+
+while read -r line ; do
+    case $line in
+        S*)
+            sys_info="${line#?} "
+            ;;
+        T*)
+            title="%{F#ffAD73F9}$(printf "\ue1ef") %{F-}${line#?} "
+            ;;
+        M*)
+            if [[ ${line#?} -gt 0 ]]; then
+                mail="$bGray$fCyan $(printf "\ue103") %{F-}${line#?} %{B-}"
+            else
+                mail=""
+            fi
+            ;;
+        V*)
+            if [[ ${line#?} = *[!\ ]* ]]; then
+                vpn="%{B#ff25D4E2}%{F#ff000000} $(printf "\ue1f7") %{B-} %{F#ff888888}${line#?}%{F-} "
+            else
+                vpn=""
+                notify-send -u 3 "VPN" "Connection terminated!"
+            fi
+            ;;
+        W*)
+            wm_info="%{B#ff393939} "
+            IFS=':'
+            set -- ${line#?}
+            while [ $# -gt 0 ] ; do
+                item=$1
+                name=${item#?}
+                case $item in
+                    # color active desktop based on active monitor
+                    M*)
+                        # active monitor
+                        activeColor="%{B#ff25D4E2}%{F#ff000000}"
+                        ;;
+                    m*)
+                        # inactive monitor
+                        activeColor="%{B#ff9066FA}%{F#ff000000}"
+                        ;;
+
+                    [OFU]*)
+                        # active desktop
+                        wm_info="$wm_info$activeColor $name %{B#ff393939}%{F-}"
+                        ;;
+                    o*)
+                        # inactive but occupied desktop
+                        wm_info="$wm_info%{B#ff552D8A} $name %{B#ff393939}"
+                        ;;
+                    f*)
+                        # inactive desktop
+                        wm_info="$wm_info%{F#ff888888} $name %{F-}"
+                        ;;
+                    u*)
+                        # urgent desktop
+                        wm_info="$wm_info%{B#ffD83B8C}%{F#ffffffff} $name %{B#ff393939}%{F-}"
+                        ;;
+                    # L*)
+                    #     # layout
+                    #     layout=$(printf "%s" "${name}" | sed 's/\(.\).*/\U\1/')
+                    #     wm_info="$wm_info $layout%{B-}"
+                    #     ;;
+                esac
+                shift
+            done
+         ;;
+    esac
+    printf "%s\n" "$wm_info%{B-}   $title %{r}$mail$sys_info$vpn"
+done
