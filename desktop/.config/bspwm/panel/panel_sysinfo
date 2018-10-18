@@ -1,0 +1,63 @@
+#!/bin/bash
+#k
+# z3bra - (c) wtfpl 2014
+# Fetch infos on your computer, and print them to stdout every second.
+
+clock() {
+    date '+%H:%M %{F#ffAD73F9}- %{F#ff888888}%d %B%{F-}'
+}
+
+battery() {
+    BATC=/sys/class/power_supply/BAT1/capacity
+    BATS=/sys/class/power_supply/BAT1/status
+
+    test "`cat $BATS`" = "Charging" && echo -n '+' || echo -n '-'
+
+    sed -n p $BATC
+}
+
+volume() {
+    amixer get Master | sed -n 'N;s/^.*\[\([0-9]\+%\).*$/\1/p'
+}
+
+cpuload() {
+    LINE=`ps -eo pcpu | grep -vE '^\s*(0.0|%CPU)' | sed -n '1h;$!H;$g;s/\n/ +/gp'`
+    bc <<< $LINE
+}
+
+memused() {
+    free | grep Mem | awk '{printf "%.0f", $3/$2 * 100}'
+}
+
+network() {
+    read lo int1 int2 <<< `ip link | sed -n 's/^[0-9]: \(.*\):.*$/\1/p'`
+    if iwconfig $int1 >/dev/null 2>&1; then
+        wifi=$int1
+
+        wifi=$int2
+        eth0=$int1
+    fi
+    ip link show $eth0 | grep 'state UP' >/dev/null && int=$eth0 ||int=$wifi
+
+    #int=eth0
+
+    ping -c 1 8.8.8.8 >/dev/null 2>&1 && 
+        echo "$int connected" || echo "$int disconnected"
+}
+
+nowplaying() {
+    cur=`mpc current`
+    echo ${cur:="- stopped -"}
+}
+
+# This loop will fill a buffer with our infos, and output it to stdout.
+while :; do
+    buf="S "
+    buf="${buf}%{F#ffAD73F9}$(printf "\ue020") %{F-}$(memused)% "
+    buf="${buf}%{B#ff2f2f2f}%{F#ff25D4E2} $(printf "\ue152") %{F-}$(volume)  %{B-}"
+    buf="${buf}%{F#ffAD73F9} $(printf "\ue128") %{F-}$(clock) "
+
+    echo $buf
+    # use `nowplaying scroll` to get a scrolling output!
+    sleep 10 # The HUD will be updated every second
+done

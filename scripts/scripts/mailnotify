@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if [[ $# -eq 0  ]]; then
+    watch_path=~/Mail/*/Inbox/new
+else
+    watch_path=$1
+fi
+
+function mailcount() {
+    echo "$(find $watch_path -type f | wc -l)"
+}
+function increment() {
+    newmails=$[newmails +1]
+    update_panel
+}
+function decrement() {
+    newmails=$[newmails -1]
+    update_panel
+}
+function update_panel() {
+    echo "M$newmails"
+}
+
+newmails=$(mailcount)
+update_panel
+
+inotifywait -q -m $watch_path -e create -e moved_to -e moved_from  -e delete |
+    while read path action file; do
+        case "$action" in
+            "CREATE" | "MOVED_TO" )
+                increment $path $file
+                ;;
+            "MOVED_FROM" | "DELETE" )
+                decrement $path $file
+                ;;
+        esac
+    done
+
+# notify-send -t 12000 -i '/usr/share/icons/Adwaita/16x16/status/mail-unread.png' \
+#     "New mail in $bo" "`grep -m 1 ^From: $f`\n`grep -m 1 ^Subject: $f`"

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# $1 = start time
+# $2 = duration
+# $3 = path_to_file
+
+palette="/tmp/palette.png"
+filters="fps=15,scale=640:-1:flags=lanczos"
+
+ffmpeg -ss $1 -t $2 -i "$3" -vf "$filters,palettegen" -y $palette
+ffmpeg -ss $1 -t $2 -i "$3" -i $palette -lavfi "$filters [x]; [x][1:v] paletteuse" -y output.gif
