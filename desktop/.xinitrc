@@ -16,8 +16,6 @@ monitordetect
 
 # Keyboard repeat rate
 xset r rate 175 25
-# Mouse sensitivity
-xinput --set-prop "Kingsis Peripherals ZOWIE Gaming mouse" "libinput Accel Speed" -1.9
 # Disable mouse acceleration
 xset m 0 0
 
