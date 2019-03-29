@@ -31,6 +31,9 @@ desktop_config() {
 
 bspc config -m 1 top_padding 16
 
+bspc config remove_unplugged_monitors true
+bspc config remove_disabled_monitors true
+
 # Resizing/moving
 bspc config pointer_modifier mod4
 bspc config pointer_action1 move
