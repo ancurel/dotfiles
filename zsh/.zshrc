@@ -76,7 +76,7 @@ alias tm="tmux -2"
 alias ta="tm attach -t"
 alias ts="tm new-session -s"
 alias tl="tmux list-sessions"
-:
+
 
 
 # Rrsync
