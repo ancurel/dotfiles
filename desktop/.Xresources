@@ -1,5 +1,5 @@
 ! Load colors
-#include "~/.colors/miami-night"
+#include ".colors/miami-night"
 
 
 ! Global settings
@@ -7,8 +7,7 @@
 Xcursor.theme:           pixelfun3
 URxvt*buffered:          false
 URxvt*secondaryWheel:    true
-! Dont set, causes text artifacts in neovim
-! URxvt*termName:          rxvt-256color
+URxvt*termName:          rxvt-256color
 
 
 ! Appearance
@@ -33,13 +32,13 @@ URxvt*matcher.button:    1
 
 ! Font stuff
 ! ----------
-Xft.dpi:                 96
-Xft.rgba:                rgb
-Xft.antialias:           1
-Xft.autohint:            1
-Xft.hinting:             1
-Xft.hintstyle:           hintslight
-Xft.lcdfilter:           infinality
+! Xft.dpi:                 96
+! Xft.rgba:                rgb
+! Xft.antialias:           1
+! Xft.autohint:            1
+! Xft.hinting:             1
+! Xft.hintstyle:           hintslight
+! Xft.lcdfilter:           infinality
 
 URxvt*font:              -lucy-tewi-medium-r-normal--11-90-100-100-c-60-ISO10646-1
 URxvt*boldFont:          -lucy-tewi-bold-r-normal--11-80-100-100-c-60-ISO10646-1
