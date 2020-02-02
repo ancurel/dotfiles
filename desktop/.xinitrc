@@ -22,7 +22,7 @@ xset m 0 0
 hsetroot -tile ~/Pictures/pattern/esheresque.png &
 # compton freezes system with firefox/youtube/video?
 #compton --backend glx --vsync opengl-swc --glx-no-stencil --xrender-sync-fence -C &
-compton --backend glx --vsync opengl-swc -C &
+compton --backend glx --vsync opengl -C --config ~/.compton.conf &
 
 xsetroot -cursor_name left_ptr &
 unclutter --ignore-scrolling -b
