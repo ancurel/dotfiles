@@ -5,7 +5,7 @@ shopt -s nullglob
 
 # Look for either a '<subdir>/console' or a 'symfony' file
 until
-        file=(*/console symfony); [[ -f "$file" ]] && php "$file" "$@" && exit;
+        file=(*/bin/console); [[ -f "$file" ]] && php "$file" "$@" && exit;
 do
         [[ "$PWD" == "/" ]] && break;
         cd ..
