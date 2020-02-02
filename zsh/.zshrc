@@ -9,7 +9,9 @@ stty -ixon -ixoff
 
 EDITOR='vim'
 export NODE_PATH=$HOME/.local/node_modules:/usr/lib/node_modules
-export PATH=$HOME/.local/node_modules/bin:$HOME/.local/bin:$HOME/scripts/:$PATH
+export PATH=$HOME/.local/bin:$HOME/scripts/:$PATH
+export PATH=$HOME/.local/node_modules/bin:./node_modules/.bin:$PATH
+export PATH=$PATH:$HOM/.cargo:$HOME/.cargo/bin
 
 # bspwm/fifo
 export PANEL_FIFO=/tmp/panel-fifo
@@ -122,6 +124,7 @@ if [ -f /usr/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=$HOME/virtualenvs
     export PROJECT_HOME=$HOME/repos
     export VIRTUAL_ENV_DISABLE_PROMPT=1
+    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
     source /usr/bin/virtualenvwrapper.sh
 fi
 
