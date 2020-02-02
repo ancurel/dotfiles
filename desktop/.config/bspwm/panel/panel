@@ -13,7 +13,7 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 mkfifo "$PANEL_FIFO"
 
 bspc subscribe > "$PANEL_FIFO" &
-xtitle -sf 'T%s' > "$PANEL_FIFO" &
+xtitle -sf 'T%s\n' > "$PANEL_FIFO" &
 # clock -sf 'S %H:%M - %d %B' > "$PANEL_FIFO" &
 
 if [ $(pgrep -cx openvpn) -eq 1 ] && [ -f /tmp/vpncurrent ]; then
