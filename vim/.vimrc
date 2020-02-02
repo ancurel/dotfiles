@@ -137,12 +137,8 @@ call plug#begin('~/.vim/plugged')
         " Syntax for javascript libraries
         Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'typescript'] }
 
-        " Tern based  code-analysis editing support for javascript
-        if has('nvim')
-            Plug 'carlitux/deoplete-ternjs', { 'for' : ['javascript'] }
-        else
-            Plug 'marijnh/tern_for_vim', { 'for': ['javascript'], 'do': 'npm install' }
-        endif
+        " Intellisense engine for vim8 & neovim (LSP)
+        Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 
 
     " ----------- PHP -----------
@@ -769,6 +765,7 @@ endif
 
 " YankRing {{{
     let g:yankring_history_dir = s:cache_dir
+    let g:yankring_clipboard_monitor=0
 " }}}
 
 
