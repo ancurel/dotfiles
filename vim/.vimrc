@@ -9,7 +9,6 @@
 " Startup {{{
     if has('vim_starting')
         set nocompatible        " Be iMproved
-        set all&                " Reset everything to default
         set path+=**
 
         if s:is_windows
