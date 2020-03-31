@@ -9,9 +9,14 @@ stty -ixon -ixoff
 
 EDITOR='vim'
 export NODE_PATH=$HOME/.local/node_modules:/usr/lib/node_modules
-export PATH=$HOME/.local/bin:$HOME/scripts/:$PATH
-export PATH=$HOME/.local/node_modules/bin:./node_modules/.bin:$PATH
+export PATH=$PATH:$HOME/.local/bin:$HOME/scripts/
+export PATH=$PATH:$HOME/.local/node_modules/bin:./node_modules/.bin
 export PATH=$PATH:$HOM/.cargo:$HOME/.cargo/bin
+
+# set truecolor
+if [[ "${TERM}" == "st-256color" ]]; then
+    export COLORTERM="24bit"
+fi
 
 # bspwm/fifo
 export PANEL_FIFO=/tmp/panel-fifo
@@ -110,6 +115,7 @@ alias dmenu_run="dmenu_run -i -fn '-*-tewi-medium-*-*-*-*-*-*-*-*-*-*-*' \
 if [ $commands[nvim] ]; then
     EDITOR='nvim'
     alias vim='nvim'
+    alias vimdiff='nvim -d'
 fi
 
 pdfmerge () {
