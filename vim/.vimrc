@@ -18,6 +18,10 @@
 " }}}
 
 " Global vars {{{
+    " set Vim-specific sequences for RGB colors
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
     let s:cache_dir = '~/.vim/.cache'
     " let g:BufKillCreateMappings = 0
 "}}}
@@ -31,29 +35,10 @@ call plug#begin('~/.vim/plugged')
         Plug 'tomtom/tlib_vim'
 
 
-    " ----------- Interface -----------
-        " Improved VIM statusline
-        " Plug 'itchyny/lightline.vim'
-
-        " Show marks in the gutter
-        Plug 'kshenoy/vim-signature'
-
-        " Reveal highlighting under cursor
-        Plug 'gerw/vim-HiLinkTrace'
-
-        " Show information from various sources
-        " Plug 'Shougo/unite.vim'
-
-        " Better vim start streen
-        Plug 'mhinz/vim-startify'
-
-        " Don't change window layout on buffer delete
-        Plug 'qpkorr/vim-bufkill'
-
-
     " ----------- General -----------
         " Quickly surround objects with chars
         Plug 'tpope/vim-surround'
+        " Alternative https://github.com/machakann/vim-sandwich
 
         " Easy text exchange operator
         Plug 'tommcdo/vim-exchange'
@@ -69,11 +54,6 @@ call plug#begin('~/.vim/plugged')
 
         " Easy commenting
         Plug 'tomtom/tcomment_vim'
-
-        " Keyword completion system
-        if has('nvim')
-            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        endif
 
         " Autocomplete quotes, brackets, etc.
         Plug 'jiangmiao/auto-pairs'
@@ -131,13 +111,10 @@ call plug#begin('~/.vim/plugged')
         Plug 'elzr/vim-json', { 'for': 'json' } 
 
         " JSX syntax highlighting
-        Plug 'mxw/vim-jsx', { 'for': 'javascript' } 
-
-        " Syntax for javascript libraries
-        Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'typescript'] }
+        Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['javascript', 'typescript'] } 
 
         " Intellisense engine for vim8 & neovim (LSP)
-        Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+        Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 
     " ----------- PHP -----------
@@ -158,13 +135,6 @@ call plug#begin('~/.vim/plugged')
 
 
     " ----------- Python -----------
-        " Python syntax completion
-        if has('nvim')
-            Plug 'zchee/deoplete-jedi', { 'for': ['python', 'python3'] } 
-        else
-            Plug 'davidhalter/jedi-vim', { 'for': ['python', 'python3'] } 
-        endi
-
         " Python-mode utilize those libs
         Plug 'klen/python-mode', { 'for': ['python', 'python3'] } 
 
@@ -183,8 +153,9 @@ call plug#begin('~/.vim/plugged')
         Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'less', 'sass', 'scss'] } 
 
         " Show CSS colors
-        " ** disabled, extremely slow in 256 color terminal **
-        " Plug 'skammer/vim-css-color', { 'for': ['css', 'less', 'sass', 'scss'] } 
+        if has('nvim')
+            Plug 'norcalli/nvim-colorizer.lua'
+        endif
 
         " CSS Less support
         Plug 'lunaru/vim-less', { 'for': ['less'] } 
@@ -195,9 +166,34 @@ call plug#begin('~/.vim/plugged')
         " Quick html trough abbrevations
         Plug 'mattn/emmet-vim', { 'for': ['html', 'html.twig'] } 
 
+
     " ----------- Other filetypes  -----------
         " fish shell syntax highlighting
         Plug 'aliva/vim-fish', { 'for': 'fish' }
+
+
+    " ----------- Interface -----------
+        " Improved VIM statusline
+        Plug 'itchyny/lightline.vim'
+
+        " Show marks in the gutter
+        Plug 'kshenoy/vim-signature'
+
+        " Reveal highlighting under cursor
+        Plug 'gerw/vim-HiLinkTrace'
+
+        " Better vim start streen
+        Plug 'mhinz/vim-startify'
+
+        " Don't change window layout on buffer delete
+        Plug 'qpkorr/vim-bufkill'
+
+        " Interactive finder
+        Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+
+        " Show (font) icons
+        Plug 'ryanoasis/vim-devicons'
+
 " }}}
 call plug#end()
 
@@ -263,6 +259,7 @@ endfunction "}}}
 
     set hidden                      " don't force write on new buffer open
 
+    set inccommand=nosplit          " Interactive substutitions
     set hlsearch                    " highlight search terms
     set incsearch                   " show search matches as you type
     set ignorecase                  " ignore case sensitive search
@@ -296,7 +293,8 @@ endfunction "}}}
     set textwidth=100               " Allow line wrap to work better
     set showbreak=↴                 " Set linebreak character
     set updatecount=50
-    set laststatus=0                " Disable statusline
+    set updatetime=300              " Faster diagnostic messages (default: 4000)"
+    set laststatus=1                " Disable statusline
 
     set history=100                 " remember more commands and search history
     set undolevels=100              " use many muchos levels of undo
@@ -305,6 +303,7 @@ endfunction "}}}
     set wildmenu                    " enable wild menu for tab-completion
     set wildmode=list:longest,full  " configure wildmenu to behave more like bash
     set wildignore+=*.swp,*.bak,*.pyc,*.class
+    set shortmess+=c                " Don't give ins-completion-menu messages
 
     set title                       " change the terminal's title
     set novisualbell                " don't beep
@@ -326,8 +325,8 @@ endfunction "}}}
     endif
 " }}}
 
-" Keyboard shorcuts {{{
-    let g:mapleader=","
+" Keyboard shortcuts {{{
+    let mapleader = ","
     nnoremap <F8> :set nonumber!<CR>
 
     " Move cursor by file line not by screen line
@@ -336,8 +335,8 @@ endfunction "}}}
     vnoremap j gj
     vnoremap k gk
 
-    noremap <Space> <PageDown>
-    noremap <S-Space> <PageUp>
+    " noremap <Space> <PageDown>
+    " noremap <S-Space> <PageUp>
 
     nnoremap ; :
 
@@ -363,6 +362,13 @@ endfunction "}}}
         nmap <BS> <C-W>h
         tnoremap <Esc> <C-\><C-n>
     endif
+
+    " Delete buffer, keep split
+    nnoremap <leader>d :BD<CR>
+    " Delete buffer + split
+    nnoremap <leader>D :bd<CR>
+    " Clear all splits
+    nnoremap <leader>o :only<CR>
 
     " Clear search
     nmap <silent> ,/ :let @/=""<CR>
@@ -425,6 +431,10 @@ endfunction "}}}
     vnoremap <leader>c "+y
     nnoremap <leader>v "+p
     inoremap <C-v> <esc>"+pa
+
+    " Easy save ctrl-s
+    nnoremap <C-s> :w<CR>
+    inoremap <C-S> <Esc>:w<CR>
 " }}}
 
 " Autocmd, commands {{{
@@ -455,6 +465,8 @@ endfunction "}}}
 " }}}
 
 " OmniComplete {{{
+    let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+
     if has("autocmd") && exists("+omnifunc")
         autocmd Filetype *
             \if &omnifunc == "" |
@@ -481,7 +493,6 @@ endfunction "}}}
     autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
     " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
 " }}}
 
 " Statusline {{{
@@ -502,60 +513,20 @@ endfunction "}}}
 
 " ----------- Plugin settings -----------
 
-" deoplete {{{
-if has('nvim')
-    let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-
-    " Options
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#enable_ignore_case = 1
-    let g:deoplete#enable_smart_case = 1
-    let g:deoplete#enable_camel_case = 1
-    let g:deoplete#enable_refresh_always = 1
-    let g:deoplete#max_abbr_width = 0
-    let g:deoplete#max_menu_width = 0
-
-    " Plugin key-mappings.
-    inoremap <expr><c-g> deoplete#undo_completion()
-
-    " <CR>: close popup
-    " <s-CR>: close popup and save indent.
-    inoremap <expr><CR> pumvisible() ? deoplete#close_popup() : "\<CR>"
-    inoremap <expr><s-CR> pumvisible() ? deoplete#close_popup() "\<CR>" : "\<CR>"
-
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><BS> pumvisible() ? deoplete#close_popup()."\<C-h>" : "\<C-R>=delimitMate#BS()<CR>"
-    inoremap <expr><C-y> deoplete#close_popup()
-    inoremap <expr><C-e> deoplete#close_popup()
-
-    " Enable heavy omni completion.
-    let g:deoplete#ignore_sources = get(g:,'deoplete#ignore_sources',{})
-    let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
-    let g:deoplete#omni_patterns = get(g:, 'deoplete#omni_patterns', {})
-
-    " javascript
-    let g:deoplete#omni#input_patterns.javascript = ['[^. \t0-9]\.\w*']
-
-    " php
-    let g:deoplete#omni#input_patterns.php = [
-                \'[^. \t0-9]\.\w*',
-                \'[^. \t0-9]\->\w*',
-                \'[^. \t0-9]\::\w*',
-                \]
-    let g:deoplete#ignore_sources.php = ['omni', 'around', 'member']
-    call deoplete#custom#source('phpcd', 'mark', '')
-    call deoplete#custom#source('phpcd', 'input_pattern', '\w*|[^. \t]->\w*|\w*::\w*')
-
-    " c c++
-    call deoplete#custom#source('clang2', 'mark', '')
-    let g:deoplete#ignore_sources.c = ['omni']   
-endif
-" }}}
-
 " AutoCloseTag {{{
     " Make it so AutoCloseTag works for other files as well
     " au FileType xhtml,xml,twig ru ftplugin/html/autoclosetag.vim
     " nmap <Leader>ac <Plug>ToggleAutoCloseMappings
+" }}}
+
+" coc {{{
+    let g:coc_global_extensions = ['coc-eslint', 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
+" }}}
+
+" Colorizer {{{
+if has('nvim')
+    lua require'colorizer'.setup()
+endif
 " }}}
 
 " CtrlP {{{
@@ -600,13 +571,22 @@ endif
     autocmd BufReadPost fugitive://* set bufhidden=delete
 " }}}
 
-" Jedi-vjm {{{
-    " let g:jedi#auto_initialization = 1
-    " let g:jedi#popup_on_dot = 0
-    " let g:jedi#rename_command = '<leader>R'
-    " autocmd FileType python*
-    "    \ NeoBundleSource jedi-vim | let b:did_ftplugin = 1
-    " let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
+" Lightline {{{
+    let g:lightline = {
+            \ 'mode_map': {
+            \ 'n' : 'N',
+            \ 'i' : 'I',
+            \ 'R' : 'R',
+            \ 'v' : 'V',
+            \ 'V' : 'VL',
+            \ "\<C-v>": 'VB',
+            \ 'c' : 'C',
+            \ 's' : 'S',
+            \ 'S' : 'SL',
+            \ "\<C-s>": 'SB',
+            \ 't': 'T',
+            \ },
+            \ }
 " }}}
 
 " phpcomplete {{{
@@ -676,7 +656,7 @@ endif
     omap F <Plug>Sneak_S
 " }}}
 
-" Sneak {{{
+" Startify {{{
     let g:startify_session_dir = s:get_cache_dir('sessions')
     let g:startify_change_to_vcs_root = 1
     let g:startify_show_sessions = 1
@@ -692,74 +672,12 @@ endif
     let g:symfony_app_console_path = ""
 " }}}
 
-" Ultisnips {{{
-    let g:UltiSnipsUsePythonVersion = 2
-    let g:UltiSnipsExpandTrigger = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger = "<tab>"
-    let g:UltiSnipsJumpBackwardTrigger = "<c-tab>"
-
-    let g:UltiSnipsSnippetDirectories = ["mysnippets"]
-" }}}
-
 " vim-easy-align {{{
     " Start interactive EasyAlign in visual mode
     vmap <leader>a <Plug>(EasyAlign)
 
     " Start interactive EasyAlign for a motion/text object
     nmap ga <Plug>(EasyAlign)
-" }}}
-
-" Vim Unite {{{
-    " let bundle = neobundle#get('unite.vim')
-    " function! bundle.hooks.on_source(bundle)
-    "     call unite#filters#matcher_default#use(['matcher_fuzzy'])
-    "     call unite#filters#sorter_default#use(['sorter_rank'])
-    "     call unite#custom#source('line,outline','matchers','matcher_fuzzy')
-    "     call unite#custom#profile('default', 'context', {
-    "                 \ 'start_insert': 1,
-    "                 \ 'direction': 'botright',
-    "                 \ })
-    " endfunction
-
-    " let g:unite_data_directory = s:get_cache_dir('unite')
-    " let g:unite_source_history_yank_enable=1
-    " let g:unite_source_rec_max_cache_files=10000
-
-    " if executable('ag')
-    "     let g:unite_source_grep_command='ag'
-    "     let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
-    "     let g:unite_source_grep_recursive_opt=''
-    " elseif executable('ack')
-    "     let g:unite_source_grep_command='ack'
-    "     let g:unite_source_grep_default_opts='--no-heading --no-color -C4'
-    "     let g:unite_source_grep_recursive_opt=''
-    " endif
-
-    " function! s:unite_settings()
-    "     nmap <buffer> Q <plug>(unite_exit)
-    "     nmap <buffer> <esc> <plug>(unite_exit)
-    "     imap <buffer> <esc> <plug>(unite_exit)
-    " endfunction
-
-    " autocmd FileType unite call s:unite_settings()
-    " nmap <leader><space> [unite]
-    " nnoremap [unite] <nop>
-
-    " if s:is_windows
-    "     nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec:! buffer file_mru bookmark<cr><c-u>
-    "     nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec:!<cr><c-u>
-    " else
-    "     nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec/async:! buffer file_mru bookmark<cr><c-u>
-    "     nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async:!<cr><c-u>
-    " endif
-
-    " nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=recent file_mru<cr>
-    " nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
-    " nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
-    " nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
-    " nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
-    " nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
-    " nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
 " }}}
 
 " YankRing {{{
