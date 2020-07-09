@@ -1,0 +1,27 @@
+#!/bin/sh
+
+wid=$1 
+class=$2 
+instance=$3
+wm_name=$(xprop -id "$wid" WM_NAME | cut -d\" -f2)
+
+# echo "class: $class | wm_name: $wm_name" >> /tmp/bswpm_exrules.log
+
+case "$class" in
+    Emacs)
+        case "$wm_name" in
+            Question) echo "state=floating";;
+        esac
+        ;;
+    Firefox)
+        case "$wm_name" in
+            Picture-in-Picture) echo "state=floating";;
+        esac
+        ;;
+    Steam)
+        case "$wm_name" in
+            "Friends List") echo "split_ratio=0.85";;
+        esac
+        ;;
+esac
+
