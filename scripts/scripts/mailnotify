@@ -1,5 +1,10 @@
 #!/bin/bash
 
+mailfifo=/tmp/mail_count
+
+[ -p $mailfifo ] || mkfifo $mailfifo
+
+
 if [[ $# -eq 0  ]]; then
     watch_path=~/Mail/*/Inbox/new
 else
@@ -11,18 +16,22 @@ function mailcount() {
 }
 function increment() {
     newmails=$[newmails +1]
-    update_panel
+    update_fifo
 }
 function decrement() {
     newmails=$[newmails -1]
-    update_panel
+    update_fifo
 }
-function update_panel() {
-    echo "M$newmails"
+function update_fifo() {
+    if (( $newmails > 0 )); then
+        echo $newmails > $mailfifo
+    else
+        echo "" > $mailfifo
+    fi
 }
 
 newmails=$(mailcount)
-update_panel
+update_fifo
 
 inotifywait -q -m $watch_path -e create -e moved_to -e moved_from  -e delete |
     while read path action file; do
