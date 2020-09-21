@@ -56,7 +56,8 @@ call plug#begin('~/.vim/plugged')
         Plug 'tomtom/tcomment_vim'
 
         " Autocomplete quotes, brackets, etc.
-        Plug 'jiangmiao/auto-pairs'
+        " Plug 'jiangmiao/auto-pairs'
+        Plug 'cohama/lexima.vim'
 
         " Extend %
         Plug 'vim-scripts/matchit.zip'
