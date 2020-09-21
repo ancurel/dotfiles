@@ -3,6 +3,9 @@
 export DESKTOP_SESSION=gnome
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 export QT_QPA_PLATFORMTHEME=qt5ct
+# export MOZ_X11_EGL=1
+# Fix for android-studio blank windows
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 xset +fp ~/.local/share/fonts/
 xset fp rehash
@@ -26,14 +29,10 @@ picom --config ~/.compton.conf --experimental-backends --backend=glx --vsync &
 
 xsetroot -cursor_name left_ptr &
 unclutter --ignore-scrolling -b
-sxhkd &
 
 # -- replaced by st
 # urxvtd -q -f -o &
 
-# bspwm
-if [ -z "$DESKTOP_SESSION" -a -x /usr/bin/ck-launch-session ]; then
-  exec ck-launch-session dbus-launch --sh-syntax --exit-with-session bspwm
-else
-  exec bspwm
-fi
+sxhkd &
+exec dbus-launch --exit-with-session bspwm
+

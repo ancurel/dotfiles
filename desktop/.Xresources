@@ -60,4 +60,4 @@ URxvt.keysym.C-0: command:\033]710;-lokaltog-fixed-medium-r-normal--10-100-75-75
 ! Emacs.geometry: 80x30
 Emacs.menuBar:           off
 Emacs.toolBar:           off
-Emacs.font:              -lucy-tewi-medium-r-normal--11-90-100-100-c-60-ISO10646-1
+! Emacs.font:              tewi
