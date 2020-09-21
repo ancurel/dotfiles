@@ -11,7 +11,7 @@ EDITOR='vim'
 export NODE_PATH=$HOME/.local/node_modules:/usr/lib/node_modules
 export PATH=$PATH:$HOME/.local/bin:$HOME/scripts/
 export PATH=$PATH:$HOME/.local/node_modules/bin:./node_modules/.bin
-export PATH=$PATH:$HOM/.cargo:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/.cargo:$HOME/.cargo/bin
 
 # set truecolor
 if [[ "${TERM}" == "st-256color" ]]; then
@@ -25,6 +25,16 @@ export PANEL_FIFO=/tmp/panel-fifo
 export WLC_DRM_DEVICE=card1
 export WLC_REPEAT_DELAY=425
 export WLC_REPEAT_RATE=25
+
+#skim
+export SKIM_DEFAULT_COMMAND="fd --type f || git ls-tree -r --name-only HEAD || rg --files || find ."
+
+# android
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # Source all files in ~/.zsh/
 for config_file ($HOME/.zsh/*.zsh); do
