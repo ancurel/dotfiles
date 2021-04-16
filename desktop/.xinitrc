@@ -29,6 +29,7 @@ picom --config ~/.compton.conf --experimental-backends --backend=glx --vsync &
 
 xsetroot -cursor_name left_ptr &
 unclutter --ignore-scrolling -b
+pulseeffects --gapplication-service &
 
 # -- replaced by st
 # urxvtd -q -f -o &
