@@ -29,51 +29,42 @@
 
 call plug#begin('~/.vim/plugged')
 " Plugins {{{
-    " ----------- Required -----------
-        " Vim plugin management
-        Plug 'MarcWeber/vim-addon-mw-utils'
-        Plug 'tomtom/tlib_vim'
-
-
+    
     " ----------- General -----------
         " Quickly surround objects with chars
         Plug 'tpope/vim-surround'
         " Alternative https://github.com/machakann/vim-sandwich
-
+    
         " Easy text exchange operator
         Plug 'tommcdo/vim-exchange'
-
+    
         " Quickly jump around buffer
         Plug 'justinmk/vim-sneak'
-
+    
         " Clipboard/register utility
         Plug 'vim-scripts/YankRing.vim'
-
+    
         " Aligning text
         Plug 'junegunn/vim-easy-align'
-
+    
         " Easy commenting
         Plug 'tomtom/tcomment_vim'
-
+    
         " Autocomplete quotes, brackets, etc.
-        " Plug 'jiangmiao/auto-pairs'
-        Plug 'cohama/lexima.vim'
-
+        Plug 'Raimondi/delimitMate'
+    
         " Extend %
         Plug 'vim-scripts/matchit.zip'
-
-        " Insert mode completion with tab
-        Plug 'ervandew/supertab'
-
+    
         " Syntax error checking
         Plug 'scrooloose/syntastic', { 'on_ft': ['python', 'php', 'javascript'] }
-
+    
         " Editorconfig
         Plug 'editorconfig/editorconfig-vim'
-
+    
         " Quickly jump around buffer
         " Plug 'Lokaltog/vim-easymotion'
-
+    
 
     " ----------- File/buf management -----------
         " Fuzzy file search
@@ -106,52 +97,49 @@ call plug#begin('~/.vim/plugged')
 
     " ----------- Javascript -----------
         " Better javascript syntax/indenting
-        Plug 'pangloss/vim-javascript', { 'for': ['javascript'] } 
+        " Plug 'pangloss/vim-javascript', { 'for': ['javascript'] } 
 
         " Json syntax coloring
         Plug 'elzr/vim-json', { 'for': 'json' } 
 
         " JSX syntax highlighting
-        Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['javascript', 'typescript'] } 
+        " Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['javascript', 'typescript'] } 
 
         " Intellisense engine for vim8 & neovim (LSP)
-        Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+        " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 
     " ----------- PHP -----------
         " TWIG syntax
-        Plug 'lumiliet/vim-twig', { 'for': ['html.twig', 'twig'] } 
+        " Plug 'lumiliet/vim-twig', { 'for': ['html.twig', 'twig'] } 
 
         " Improved php autocomplete
-        Plug 'lvht/phpcd.vim', { 'for': ['html.twig', 'php'], 'do': 'composer install' } 
+        " Plug 'lvht/phpcd.vim', { 'for': ['html.twig', 'php'], 'do': 'composer install' } 
 
         " Better php syntax
-        Plug 'StanAngeloff/php.vim', { 'for': ['html.twig', 'php'] } 
+        " Plug 'StanAngeloff/php.vim', { 'for': ['html.twig', 'php'] } 
 
         " Automatich folding PHP functions
-        Plug 'lvht/phpfold.vim', { 'for': ['php'] } 
-
-        " Symfony2 plugin | routing, dic autocompletion, sf console
-        Plug 'docteurklein/vim-symfony', { 'for': ['php'] } 
+        " Plug 'lvht/phpfold.vim', { 'for': ['php'] } 
 
 
     " ----------- Python -----------
         " Python-mode utilize those libs
-        Plug 'klen/python-mode', { 'for': ['python', 'python3'] } 
+        " Plug 'klen/python-mode', { 'for': ['python', 'python3'] } 
 
         " Enhanced python syntax highlighting
-        Plug 'hdima/python-syntax', { 'for': ['python', 'python3'] } 
+        " Plug 'hdima/python-syntax', { 'for': ['python', 'python3'] } 
 
 
     " ----------- HTL/CSS -----------
         " HTML5 syntax
-        Plug 'othree/html5.vim', { 'for': 'html' } 
+        " Plug 'othree/html5.vim', { 'for': 'html' } 
 
         " Automatically close html tag
-        Plug 'alvan/vim-closetag', { 'for': 'html' } 
+        " Plug 'alvan/vim-closetag', { 'for': 'html' } 
 
         " CSS3 syntax
-        Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'less', 'sass', 'scss'] } 
+        " Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'less', 'sass', 'scss'] } 
 
         " Show CSS colors
         if has('nvim')
@@ -159,13 +147,13 @@ call plug#begin('~/.vim/plugged')
         endif
 
         " CSS Less support
-        Plug 'lunaru/vim-less', { 'for': ['less'] } 
+        " Plug 'lunaru/vim-less', { 'for': ['less'] } 
 
         " CSS Sass support
-        Plug 'cakebaker/scss-syntax.vim', { 'for': ['scss','sass'] } 
+        " Plug 'cakebaker/scss-syntax.vim', { 'for': ['scss','sass'] } 
 
         " Quick html trough abbrevations
-        Plug 'mattn/emmet-vim', { 'for': ['html', 'html.twig'] } 
+        " Plug 'mattn/emmet-vim', { 'for': ['html', 'html.twig'] } 
 
 
     " ----------- Other filetypes  -----------
@@ -181,19 +169,19 @@ call plug#begin('~/.vim/plugged')
         Plug 'kshenoy/vim-signature'
 
         " Reveal highlighting under cursor
-        Plug 'gerw/vim-HiLinkTrace'
+        " Plug 'gerw/vim-HiLinkTrace'
 
         " Better vim start streen
-        Plug 'mhinz/vim-startify'
+        " Plug 'mhinz/vim-startify'
 
         " Don't change window layout on buffer delete
         Plug 'qpkorr/vim-bufkill'
 
         " Interactive finder
-        Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+        " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
         " Show (font) icons
-        Plug 'ryanoasis/vim-devicons'
+        " Plug 'ryanoasis/vim-devicons'
 
 " }}}
 call plug#end()
@@ -260,7 +248,9 @@ endfunction "}}}
 
     set hidden                      " don't force write on new buffer open
 
-    set inccommand=nosplit          " Interactive substutitions
+    if has('nvim')
+        set inccommand=nosplit          " Interactive substutitions
+    endif
     set hlsearch                    " highlight search terms
     set incsearch                   " show search matches as you type
     set ignorecase                  " ignore case sensitive search
@@ -280,7 +270,7 @@ endfunction "}}}
     set softtabstop=4
     set smarttab                    " insert tabs on the start of a line according to shiftwidth, not tabstop
     set showmatch                   " show matching brackets/parenthesis
-    set virtualedit=onemore         " allow for cursor beyond last character
+    " set virtualedit=onemore         " allow for cursor beyond last character
 
     set encoding=utf-8              " Enable unicode
     set nojoinspaces                " single spaces after sentences
