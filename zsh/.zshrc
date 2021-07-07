@@ -8,9 +8,13 @@ stty -ixon -ixoff
 [[ -e "$HOME/.config/dir_colors" ]] && eval $(dircolors -b "$HOME/.config/dir_colors")
 
 EDITOR='vim'
-export NODE_PATH=$HOME/.local/node_modules:/usr/lib/node_modules
 export PATH=$PATH:$HOME/.local/bin:$HOME/scripts/
+# Node
+export NODE_PATH=$HOME/.local/node_modules:/usr/lib/node_modules
 export PATH=$PATH:$HOME/.local/node_modules/bin:./node_modules/.bin
+# Drupal/php
+export PATH=$PATH:./vendor/bin
+# Rust
 export PATH=$PATH:$HOME/.cargo:$HOME/.cargo/bin
 
 # set truecolor
@@ -28,6 +32,9 @@ export WLC_REPEAT_RATE=25
 
 #skim
 export SKIM_DEFAULT_COMMAND="fd --type f || git ls-tree -r --name-only HEAD || rg --files || find ."
+
+# node
+export NPM_CHECK_INSTALLER="pnpm"
 
 # android
 export ANDROID_HOME=$HOME/Android/Sdk
@@ -62,6 +69,7 @@ alias lsl="ls -lh"
 alias lsa="ls -alh"
 alias lsd="ls -alh --group-directories-first"
 alias up="dirup"
+alias o="xdg-open"
 
 alias fmodall="cmodall f"
 alias dmodall="cmodall d"
@@ -134,7 +142,7 @@ pdfmerge () {
 
 
 
-# Virtual envwrapper
+# Virtual env(wrapper)
 # -----------------
 if [ -f /usr/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=$HOME/virtualenvs
