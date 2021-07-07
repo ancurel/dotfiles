@@ -21,6 +21,8 @@ monitordetect
 xset r rate 175 25
 # Disable mouse acceleration
 xset m 0 0
+# Set mouse speed
+xinput --set-prop "Logitech G403 Prodigy Gaming Mouse" "Coordinate Transformation Matrix" 1 0 0 0 1 0 0 0 0.0045
 
 hsetroot -tile ~/Pictures/pattern/esheresque.png &
 # compton freezes system with firefox/youtube/video?
