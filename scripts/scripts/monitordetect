@@ -1,6 +1,6 @@
 #!/bin/bash
 
-primary="DisplayPort-1"
+primary="DisplayPort-0"
 secondary=()
 monitors=($(xrandr -q | awk '/[^dis]connected/ { print $1;}'))
 
