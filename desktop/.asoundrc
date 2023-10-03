@@ -16,7 +16,7 @@ pcm.dmixed {
                 nonblock true
 
                 type hw
-                card CMI8770
+                card Generic
                 device 0
                 subdevice 0
             }
@@ -52,4 +52,9 @@ pcm.!spdif {
     type hw
     card 0
     device 2
+}
+
+pcm.!default {
+    type plug
+    slave.pcm "dmixed"
 }
