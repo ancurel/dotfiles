@@ -7,20 +7,30 @@ stty -ixon -ixoff
 
 [[ -e "$HOME/.config/dir_colors" ]] && eval $(dircolors -b "$HOME/.config/dir_colors")
 
+# Editor 
 EDITOR='vim'
+# Envar used in https://github.com/yyx990803/launch-editor used in many nodejs devtools
+LAUNCH_EDITOR=nvim-rpc-command
+
 export PATH=$PATH:$HOME/.local/bin:$HOME/scripts/
 # Node
-export NODE_PATH=$HOME/.local/node_modules:/usr/lib/node_modules
+# export NODE_PATH=$HOME/.local/node_modules:/usr/lib/node_modules
 export PATH=$PATH:$HOME/.local/node_modules/bin:./node_modules/.bin
+# rust
+export PATH=$PATH:$HOME/.cargo:$HOME/.cargo/bin
 # Drupal/php
 export PATH=$PATH:./vendor/bin
-# Rust
-export PATH=$PATH:$HOME/.cargo:$HOME/.cargo/bin
+# pnpm
+export PNPM_HOME=$HOME/.local/share/pnpm
+export PATH=$PATH:$PNPM_HOME
+# pnpm end
 
 # set truecolor
 if [[ "${TERM}" == "st-256color" ]]; then
     export COLORTERM="24bit"
 fi
+
+# export MOZ_DISABLE_RDD_SANDBOX=1
 
 # bspwm/fifo
 export PANEL_FIFO=/tmp/panel-fifo
