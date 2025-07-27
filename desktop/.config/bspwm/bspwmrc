@@ -60,6 +60,7 @@ bspc rule -a Sxiv         state=floating center
 bspc rule -a mpv          state=floating center
 bspc rule -a KeePassXC    state=floating
 bspc rule -a Pavucontrol  state=floating center
+bspc rule -a 'firefox:Toolkit:Picture-in-Picture' state=floating
 
 bspc rule -a Emacs        state=tiled
 bspc rule -a Zathura      state=tiled
@@ -71,5 +72,5 @@ bspc config external_rules_command ~/.config/bspwm/external_rules
 ~/.config/polybar/launch.sh
 
 # Fix correct padding
-bspc config -m 1 top_padding 18
+# bspc config -m 1 top_padding 20 
 

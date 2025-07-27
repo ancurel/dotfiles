@@ -129,10 +129,12 @@ super + {_,shift + }{1-9,0}
 #
 
 super + Return
-	alacritty
+    appimg wezterm
+	# alacritty
+    # st
 
-super + space
-    dmenu_run -i -fn 'tewi' -l 4 -w 400 -x 30 -y 40 -o .9 -q -p '>' -sb \#25D4E2 -sf \#000 -h 20
+super + d 
+    dmenu_run -i -fn 'Dina' -l 4 -w 400 -x 30 -y 40 -o .9 -q -p '>' -sb \#25D4E2 -sf \#000 -h 20
     # dmenu_run -i -fn 'tewi' -dim .4 -l 4 -w 400 -x 30 -y 40 -o .9 -q -p '>' -sb \#25D4E2 -sf \#000 -h 20
 
 

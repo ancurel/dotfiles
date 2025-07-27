@@ -40,6 +40,9 @@ export WLC_DRM_DEVICE=card1
 export WLC_REPEAT_DELAY=425
 export WLC_REPEAT_RATE=25
 
+# Change config dir for gnupg
+export GNUPGHOME=$XDG_CONFIG_HOME/gnupg
+
 #skim
 export SKIM_DEFAULT_COMMAND="fd --type f || git ls-tree -r --name-only HEAD || rg --files || find ."
 
@@ -118,6 +121,8 @@ alias tl="tmux list-sessions"
 # ------
 alias rs-copy="rsync -avr --progress -h"
 alias rs-move="rsync -avr --progress -h --remove-source-files"
+alias rs-copy-gi="rsync -avr --progress -h --delete --filter=':- .gitignore'"
+alias rs-copy-ngi="rsync -avr --progress -h --delete --delete-excluded --filter=':- .gitignore' --exclude .git/"
 
 
 
@@ -134,8 +139,6 @@ alias tarbz2='tar -jxvf'
 # ---------------
 alias vpn="sudo vpn"
 alias wchat="screen -S irc weechat-curses"
-alias lessc="~/node_modules/.bin/lessc"
-alias opti="ssh optimus.local"
 alias dmenu_run="dmenu_run -i -fn '-*-tewi-medium-*-*-*-*-*-*-*-*-*-*-*' \
     -dim .4 -l 4 -w 400 -x 30 -y 40 -o .9 -q -p '>' \
     -sb #25D4E2 -sf #000 -h 20"
@@ -146,29 +149,28 @@ if [ $commands[nvim] ]; then
     alias vimdiff='nvim -d'
 fi
 
+if [ $commands[atuin] ]; then
+    eval "$(atuin init zsh --disable-up-arrow)"
+elif [ $commands[mcfly] ]; then
+    export MCFLY_FUZZY=2
+    export MCFLY_KEY_SCHEME=vim
+    eval "$(mcfly init zsh)"
+fi
+
+
 pdfmerge () {
     gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=$@
 }
 
 
 
-# Virtual env(wrapper)
-# -----------------
-if [ -f /usr/bin/virtualenvwrapper.sh ]; then
-    export WORKON_HOME=$HOME/virtualenvs
-    export PROJECT_HOME=$HOME/repos
-    export VIRTUAL_ENV_DISABLE_PROMPT=1
-    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
-    source /usr/bin/virtualenvwrapper.sh
-fi
 
-
-
-# Fasd / Autojump
+# Autojump
 # --------
-if [ $commands[fasd] ]; then
-    eval "$(fasd --init posix-alias zsh-hook zsh-ccomp)"
-    alias j='fasd_cd -d'
+if [ $commands[zoxide] ]; then
+    eval "$(zoxide init zsh)"
+    alias j="__zoxide_z"
+    alias ji="__zoxide_zi"
 elif [ $commands[autojump] ]; then
     # Gentoo
     if [ -f /etc/profile.d/autojump.sh ]; then
@@ -192,3 +194,4 @@ pushoverSend() {
         -F message="$*" \
         https://api.pushover.net/1/messages.json
 }
+

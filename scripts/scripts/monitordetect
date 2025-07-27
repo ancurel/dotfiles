@@ -17,7 +17,7 @@ do
     fi
 done
 
-xrandr --output $primary --mode $(resolution $primary)
+xrandr --output $primary --mode $(resolution $primary) --rate 100
 xrandr --output $primary --primary
 
 previous=$primary
@@ -28,3 +28,5 @@ do
     previous=$i
 done
 
+
+xrandr --output HDMI-A-0 --off

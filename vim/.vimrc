@@ -314,6 +314,10 @@ endfunction "}}}
         set grepprg=ag\ --vimgrep
         set grepformat=%f:%l:%c:%m
     endif
+    if executable('rg')
+        set grepprg=rg\ --vimgrep
+        set grepformat=%f:%l:%c:%m
+    endif
 " }}}
 
 " Keyboard shortcuts {{{
@@ -415,7 +419,6 @@ endfunction "}}}
     inoremap <C-i> <Esc>}i
 
     " Select last pasted text
-    nnoremap <s-p> V`]
     nnoremap <s-p> V`]
 
     " Copy/Paste from terminal
